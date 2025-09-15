@@ -9,7 +9,7 @@ Cypress.Commands.add('calculaFreteDetalhe', (body) => {
 });
 
 Cypress.Commands.add('deveRetornarOsPrincipaisDadosDaEntrega', () => {
-  cy.fixture('frete-calculo-v2-detalhes').then((massa) => {
+  cy.fixture('frete-calculo-v3-detalhes').then((massa) => {
     cy.calculaFreteDetalhe(massa).then((response) => {
       expect(response.status).to.equal(200);
       const frete = response.body.fretes[0];
