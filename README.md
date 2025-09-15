@@ -68,7 +68,7 @@ Assim, sempre que você instalar ou atualizar dependências, elas ficarão organ
    ```
    - `module.exports = { ... }`: Torna o objeto de configuração disponível para o Cypress usar.
    - `e2e`: Indica que as configurações dentro desse bloco são para testes E2E.
-   - `baseUrl`: Define o endereço base da API. Assim, nos testes, podemos usar caminhos relativos (ex: `/frete/v2/calculo/detalhe`) em vez de escrever a URL completa.
+   - `baseUrl`: Define o endereço base da API. Assim, nos testes, podemos usar caminhos relativos (ex: `/frete/v3/calculo/detalhe`) em vez de escrever a URL completa.
    - `supportFile`: Especifica o arquivo de suporte global (`cypress/support/e2e.js`), que é carregado antes de cada teste. Nele, podemos importar comandos customizados e definir configurações globais.
 
    Resumindo: esse bloco centraliza e automatiza configurações essenciais para que o Cypress saiba onde rodar os testes e como prepará-los.
@@ -99,11 +99,11 @@ Assim, sempre que você instalar ou atualizar dependências, elas ficarão organ
 1. **e2e/Frete-calculo-sit/**  
    Onde ficam os arquivos de teste automatizado para o cenário de frete.  
    Exemplo real:
-   - `cypress/e2e/Frete-calculo-sit/frete-calculo-v2-detalhes.cy.js`:
+   - `cypress/e2e/Frete-calculo-sit/frete-calculo-v3-detalhes.cy.js`:
      ```javascript
-     describe('Frete Cálculo V2 Detalhes ambiente de sit', () => {
+     describe('Frete Cálculo V3 Detalhes ambiente de sit', () => {
        it('Deve retornar o tipo de entrega e a data de entrega do produto', () => {
-         cy.fixture('frete-calculo-v2-detalhes').then((massa) => {
+         cy.fixture('frete-calculo-v3-detalhes').then((massa) => {
            cy.calculaFreteDetalhe(massa).then((response) => {
              expect(response.status).to.eq(200);
              expect(response.body).to.have.property('fretes');
@@ -118,7 +118,7 @@ Assim, sempre que você instalar ou atualizar dependências, elas ficarão organ
 2. **fixtures/**  
    Arquivos de massa de dados (JSON, imagens, etc.) usados nos testes.  
    Exemplo real:
-   - `cypress/fixtures/frete-calculo-v2-detalhes.JSon`:
+   - `cypress/fixtures/frete-calculo-v3-detalhes.JSon`:
      ```json
      {
        "Canal": "SITE",
@@ -144,7 +144,7 @@ Assim, sempre que você instalar ou atualizar dependências, elas ficarão organ
      Cypress.Commands.add('calculaFreteDetalhe', (body) => {
        return cy.request({
          method: 'POST',
-         url: '/frete/v2/calculo/detalhe',
+         url: '/frete/v3/calculo/detalhe',
          headers: { 'Content-Type': 'application/json' },
          body
        });
@@ -165,12 +165,12 @@ Assim, sempre que você instalar ou atualizar dependências, elas ficarão organ
 
 ## Explicação do cenário de teste automatizado
 
-Arquivo: `cypress/e2e/Frete-calculo-sit/frete-calculo-v2-detalhes.cy.js`
+Arquivo: `cypress/e2e/Frete-calculo-sit/frete-calculo-v3-detalhes.cy.js`
 
 ```javascript
-describe('Frete Cálculo V2 Detalhes', () => {
+describe('Frete Cálculo V3 Detalhes', () => {
   it('Deve retornar os principais dados do frete', () => {
-    cy.fixture('frete-calculo-v2-detalhes').then((massa) => {
+    cy.fixture('frete-calculo-v3-detalhes').then((massa) => {
       cy.calculaFreteDetalhe(massa).then((response) => {
         if (response.status !== 200 || !response.body.fretes || !response.body.fretes.length) {
           return;
@@ -188,9 +188,9 @@ describe('Frete Cálculo V2 Detalhes', () => {
 
 ### O que faz cada linha:
 
-- `describe('Frete Cálculo V2 Detalhes', ...)`: Define o grupo de testes para o cenário de cálculo de frete.
+- `describe('Frete Cálculo V3 Detalhes', ...)`: Define o grupo de testes para o cenário de cálculo de frete.
 - `it('Deve retornar os principais dados do frete', ...)`: Define o caso de teste que será executado.
-- `cy.fixture('frete-calculo-v2-detalhes')`: Carrega a massa de dados do arquivo `cypress/fixtures/frete-calculo-v2-detalhes.JSon` (os dados de entrada da requisição).
+- `cy.fixture('frete-calculo-v3-detalhes')`: Carrega a massa de dados do arquivo `cypress/fixtures/frete-calculo-v3-detalhes.JSon` (os dados de entrada da requisição).
 - `.then((massa) => { ... })`: Recebe a massa de dados carregada e executa o restante do teste.
 - `cy.calculaFreteDetalhe(massa)`: Executa o comando customizado (definido em `cypress/support/commands.js`) que faz a requisição POST para a API de frete, usando a massa de dados carregada.
 - `.then((response) => { ... })`: Recebe a resposta da API.
@@ -202,7 +202,7 @@ describe('Frete Cálculo V2 Detalhes', () => {
 - `expect(frete.valor, 'valor').to.equal(0.00);`: Verifica se o valor do frete é 0.00.
 
 ### De onde vem cada informação:
-- **Massa de dados**: do arquivo `cypress/fixtures/frete-calculo-v2-detalhes.JSon`.
+- **Massa de dados**: do arquivo `cypress/fixtures/frete-calculo-v3-detalhes.JSon`.
 - **Comando customizado**: definido em `cypress/support/commands.js` (faz a requisição para a API).
 - **Resposta da API**: a estrutura esperada é um objeto com a propriedade `fretes`, que é um array de opções de frete.
 - **Valores esperados**: definidos conforme o retorno esperado da API para o cenário de teste.
@@ -212,10 +212,10 @@ describe('Frete Cálculo V2 Detalhes', () => {
 ## Organização do cenário de teste principal
 
 - O cenário **"Deve retornar os principais dados da entrega"** está implementado como um comando customizado Cypress chamado `deveRetornarOsPrincipaisDadosDaDntrega` no arquivo `cypress/support/commands.js`.
-- O arquivo de teste `cypress/e2e/Frete-calculo-sit/frete-calculo-v2-detalhes.cy.js` apenas chama esse comando, deixando o teste limpo e fácil de reutilizar:
+- O arquivo de teste `cypress/e2e/Frete-calculo-sit/frete-calculo-v3-detalhes.cy.js` apenas chama esse comando, deixando o teste limpo e fácil de reutilizar:
 
 ```javascript
-describe('Frete Cálculo V2 Detalhes', () => {
+describe('Frete Cálculo V3 Detalhes', () => {
   it('Deve retornar os principais dados da entrega', () => {
     cy.deveRetornarOsPrincipaisDadosDaDntrega();
   });
@@ -239,11 +239,11 @@ No projeto, criamos comandos customizados para deixar os testes mais limpos e re
   Envia uma requisição POST para a API de cálculo de frete, usando os dados de entrada (massa) do teste.
 - **Como funciona:**  
   - Recebe como parâmetro a massa de dados (normalmente vinda de um fixture).
-  - Faz a requisição para o endpoint `/frete/v2/calculo/detalhe`.
+  - Faz a requisição para o endpoint `/frete/v3/calculo/detalhe`.
   - Retorna a resposta da API para ser validada no teste.
 - **Exemplo de uso:**  
   ```javascript
-  cy.fixture('frete-calculo-v2-detalhes').then((massa) => {
+  cy.fixture('frete-calculo-v3-detalhes').then((massa) => {
     cy.calculaFreteDetalhe(massa).then((response) => {
       // Validações aqui
     });
@@ -418,3 +418,8 @@ Executa todos os testes em modo headless (sem interface gráfica), ideal para in
 ## Conclusão
 
 Este projeto demonstra como estruturar e automatizar testes de API utilizando Cypress, com organização de comandos customizados, uso de fixtures e separação clara entre lógica de teste e massa de dados. Essa abordagem facilita a manutenção, reuso e expansão dos testes, garantindo maior qualidade e confiabilidade para a API de frete.
+
+- Todos os testes, fixtures e comandos agora usam apenas a versão v3 do endpoint e dos arquivos.
+- O teste principal (`frete-calculo-v3-detalhes.cy.js`) utiliza `cy.intercept()` para mockar a resposta da API, garantindo que o teste passe mesmo sem acesso externo.
+- Arquivos, exemplos e instruções que referenciavam "v2" foram atualizados para "v3".
+- O arquivo antigo `frete-calculo-v2-detalhes.cy.js` foi substituído por `frete-calculo-v3-detalhes.cy.js`.
