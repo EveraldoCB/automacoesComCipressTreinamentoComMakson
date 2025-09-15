@@ -1,7 +1,7 @@
 Cypress.Commands.add('calculaFreteDetalhe', (body) => {
   return cy.request({
     method: 'POST',
-    url: '/frete/v2/calculo/detalhe',
+    url: '/frete/v3/calculo/detalhe',
     headers: { 'Content-Type': 'application/json' },
     body,
     failOnStatusCode: false
