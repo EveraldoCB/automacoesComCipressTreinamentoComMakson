@@ -1,7 +1,7 @@
 Cypress.Commands.add('calculaFreteDetalhe', (body) => {
   return cy.request({
     method: 'POST',
-    url: '/frete/v3/calculo/detalhe',
+    url: 'http://frete-hub-plataforma-frete-hlg.casasbahia.com.br/frete/v3/calculo/detalhe', // url absoluta
     headers: { 'Content-Type': 'application/json' },
     body,
     failOnStatusCode: false
