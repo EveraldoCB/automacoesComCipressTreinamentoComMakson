@@ -423,3 +423,23 @@ Este projeto demonstra como estruturar e automatizar testes de API utilizando Cy
 - O teste principal (`frete-calculo-v3-detalhes.cy.js`) utiliza `cy.intercept()` para mockar a resposta da API, garantindo que o teste passe mesmo sem acesso externo.
 - Arquivos, exemplos e instruções que referenciavam "v2" foram atualizados para "v3".
 - O arquivo antigo `frete-calculo-v2-detalhes.cy.js` foi substituído por `frete-calculo-v3-detalhes.cy.js`.
+
+## Explicação do workflow CI (`.github/workflows/ci-cypress.yml`)
+
+Este arquivo define o pipeline de integração contínua (CI) para rodar os testes automatizados do Cypress no GitHub Actions. Veja o que faz cada linha:
+
+- `name: CI Cypress`: Dá um nome para o workflow.
+- `on`: Define quando o workflow será executado.
+  - `push` e `pull_request`: O workflow roda em pushes e pull requests nas branches `main` e `pdiQaNaPratica`.
+- `jobs`: Define os trabalhos (jobs) que serão executados.
+  - `cypress-run`: Nome do job principal.
+    - `runs-on: ubuntu-latest`: O job será executado em uma máquina virtual Ubuntu.
+    - `steps`: Lista de etapas do job.
+      - `Checkout code`: Baixa o código do repositório.
+      - `Setup Node.js`: Instala o Node.js na versão 20.x.
+      - `Install dependencies`: Executa `npm install` para instalar todas as dependências do projeto.
+      - `Run Cypress tests`: Executa os testes Cypress com `npm test`. As variáveis de ambiente `CI: true` e `CYPRESS_CI: true` garantem que o mock dos testes seja ativado, evitando falhas por falta de acesso externo à API.
+      - `Save Cypress screenshots`: Salva os screenshots gerados pelos testes como artefato do workflow.
+      - `Save Cypress videos`: Salva os vídeos gerados pelos testes como artefato do workflow.
+
+Esse workflow garante que, a cada alteração enviada para o repositório, os testes automatizados sejam executados automaticamente, validando a qualidade do código e evitando que erros cheguem à branch principal.
