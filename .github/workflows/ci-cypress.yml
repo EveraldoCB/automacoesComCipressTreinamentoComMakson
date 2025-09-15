@@ -22,8 +22,10 @@ jobs:
           node-version: '20.x'
       - name: Install dependencies
         run: npm install
+        working-directory: Projeto de automacao de API com Cypress para apresentacao
       - name: Run Cypress tests
         run: npm test
+        working-directory: Projeto de automacao de API com Cypress para apresentacao
         env:
           CI: true
       - name: Save Cypress screenshots

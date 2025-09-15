@@ -1,0 +1,14 @@
+{
+  "canal": "SITE",
+  "cep": "09520650",
+  "UnidadeNegocio": "B2CCasasBahia",
+  "Produtos": [
+    {
+      "Componentes": "",
+      "IdSku": 55010765,
+      "IdLojista": 10037,
+      "Quantidade": 2,
+      "ValorUnitario": "29.90"
+    }
+  ]
+}
