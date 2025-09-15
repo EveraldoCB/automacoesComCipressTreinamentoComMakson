@@ -1,6 +1,6 @@
 module.exports = {
   e2e: {
-    baseUrl: 'http://frete-hub-plataforma-frete-hlg.casasbahia.com.br',
+    // baseUrl removido para evitar erro de verificação de servidor no CI
     supportFile: 'cypress/support/e2e.js'
   }
 };
