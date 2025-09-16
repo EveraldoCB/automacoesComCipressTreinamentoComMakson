@@ -443,3 +443,44 @@ Este arquivo define o pipeline de integração contínua (CI) para rodar os test
       - `Save Cypress videos`: Salva os vídeos gerados pelos testes como artefato do workflow.
 
 Esse workflow garante que, a cada alteração enviada para o repositório, os testes automatizados sejam executados automaticamente, validando a qualidade do código e evitando que erros cheguem à branch principal.
+
+---
+
+## Modelo de documentação de cenários de teste (API e Frontend)
+
+### Exemplo de cenário de teste
+
+**Produto:** [Nome do Produto]  
+**Tipo:** API / Frontend  
+**Cenário:** [Nome do cenário]  
+**Objetivo:** Descrever o que está sendo validado  
+**Pré-condições:** Listar requisitos para execução  
+**Dados de entrada:** Informar massa de dados ou parâmetros  
+**Passos:**  
+1. [Passo 1]  
+2. [Passo 2]  
+3. ...  
+**Resultado esperado:** Descrever o resultado esperado  
+**Observações:** Pontos de atenção, dependências, integrações  
+
+---
+
+### Checklist semanal de refinamento
+- [ ] Cenários atualizados conforme refinamento
+- [ ] Comandos customizados revisados
+- [ ] Fixtures revisadas e documentadas
+- [ ] Integração entre produtos validada
+- [ ] README e estudos.md atualizados
+- [ ] Cobertura de cenários de erro e borda
+- [ ] Documentação de mudanças relevantes
+
+---
+
+### Boas práticas para múltiplos produtos
+- Separe cenários e documentação por produto
+- Documente integrações e dependências
+- Mantenha exemplos práticos para cada produto
+- Atualize documentação após cada refinamento
+- Facilite onboarding de novos QAs com guias rápidos
+
+---
