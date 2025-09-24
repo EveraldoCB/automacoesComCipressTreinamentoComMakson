@@ -199,4 +199,20 @@
    - Mantenha um guia rápido para novos QAs, explicando estrutura, comandos principais e fluxo de trabalho.
 
 ---
-````
+
+## Retirada da propriedade baseUrl do cypress.config.js
+
+A propriedade `baseUrl` foi removida do objeto `module.exports` no arquivo `cypress.config.js` para evitar erros de verificação de servidor durante a execução dos testes em ambientes de Integração Contínua (CI). 
+
+### O que muda na prática?
+- **Antes:** Com `baseUrl` definido, era possível usar caminhos relativos (ex: `/login`) nos comandos `cy.visit()` e `cy.request()`, pois o Cypress completava automaticamente a URL usando o valor de `baseUrl`.
+- **Depois:** Sem `baseUrl`, é necessário informar a URL completa (ex: `http://localhost:3000/login`) em cada comando, pois o Cypress não tem mais uma URL base para completar os caminhos relativos.
+
+### Por que remover?
+- Em ambientes de CI, o endereço do servidor pode variar ou não estar disponível, o que pode causar falhas nos testes se o `baseUrl` estiver definido de forma fixa.
+- Remover o `baseUrl` torna os testes mais flexíveis para rodar em diferentes ambientes, mesmo que exija informar a URL completa nos comandos.
+
+### Resumo
+A retirada do `baseUrl` visa garantir que os testes rodem sem dependência de um endereço fixo, evitando erros em pipelines automatizados e facilitando a execução em múltiplos ambientes.
+
+---

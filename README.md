@@ -1,4 +1,13 @@
-# Automação da API de Frete cálculo com Cypress para Apresentação
+# Automação da API de Frete cálculo com Cypress - Mentoria Com Makson
+
+## Gerenciamento de dependências e node_modules
+
+- Todas as dependências do projeto (incluindo o Cypress) são registradas no arquivo `package.json`.
+- Para instalar as dependências, execute `npm install`. Isso cria a pasta `node_modules` na raiz do projeto.
+- A pasta `node_modules` **não é enviada para o GitHub** porque está listada no `.gitignore`. Cada pessoa que clonar o projeto deve rodar `npm install` para gerar essa pasta localmente.
+- Não edite manualmente a `node_modules`.
+
+---
 
 ## Como iniciar o projeto
 
@@ -6,7 +15,7 @@
    ```sh
    npm init -y
    ```
-   O parâmetro `-y` serve para aceitar todas as configurações padrão automaticamente, criando o arquivo `package.json` sem perguntar cada detalhe.
+   O parâmetro `-y` aceita todas as configurações padrão automaticamente, criando o arquivo `package.json`.
 2. Instale o Cypress como dependência de desenvolvimento:
    ```sh
    npm install --save-dev cypress
@@ -16,85 +25,26 @@
    npx cypress --version
    ```
 
-## Onde ficam instaladas as bibliotecas do Cypress?
+---
 
-As bibliotecas do Cypress (e todas as dependências instaladas via npm) ficam na pasta `node_modules`, criada automaticamente na raiz do projeto ao rodar o comando `npm install`. O arquivo responsável por registrar essas dependências é o `package.json`.
+## Estrutura dos arquivos principais do projeto
 
-As bibliotecas do Cypress (e de todas as dependências instaladas via npm) ficam na pasta `node_modules`, que é criada automaticamente na raiz do projeto quando você executa o comando:
-
-```sh
-npm install --save-dev cypress
-```
-
-- O Cypress e todas as suas dependências ficam dentro de `node_modules/cypress/`.
-- O arquivo `package.json` registra que o Cypress está instalado como dependência de desenvolvimento.
-- A pasta `node_modules` não deve ser editada manualmente e geralmente está listada no `.gitignore` para não ser versionada no Git.
-
-Assim, sempre que você instalar ou atualizar dependências, elas ficarão organizadas dentro de `node_modules`, facilitando a gestão do ambiente do projeto.
-
-## Arquivos criados na raiz do projeto (por ordem de relevância)
-
-1. **package.json**  
-   Arquivo principal de configuração do projeto Node.js.  
-   Exemplo real:
-   ```json
-   {
-     "name": "projeto-de-automacao-de-api-com-cypress-para-apresentacao",
-     "version": "1.0.0",
-     "description": "Projeto de automação da API de Frete para apresentação.",
-     "main": "index.js",
-     "scripts": {
-       "test": "cypress run",
-       "cypress:open": "npx cypress open"
-     },
-     "author": "Everaldo",
-     "license": "ISC",
-     "devDependencies": {
-       "cypress": "^14.5.4"
-     }
-   }
-   ```
-
-2. **cypress.config.js**  
-   Arquivo de configuração do Cypress.  
-   Exemplo real:
-   ```javascript
-   module.exports = {
-     e2e: {
-       baseUrl: 'https://frete-hub-plataforma-frete-sit.casasbahia.com.br',
-       supportFile: 'cypress/support/e2e.js'
-     }
-   };
-   ```
-   - `module.exports = { ... }`: Torna o objeto de configuração disponível para o Cypress usar.
-   - `e2e`: Indica que as configurações dentro desse bloco são para testes E2E.
-   - `baseUrl`: Define o endereço base da API. Assim, nos testes, podemos usar caminhos relativos (ex: `/frete/v3/calculo/detalhe`) em vez de escrever a URL completa.
-   - `supportFile`: Especifica o arquivo de suporte global (`cypress/support/e2e.js`), que é carregado antes de cada teste. Nele, podemos importar comandos customizados e definir configurações globais.
-
-   Resumindo: esse bloco centraliza e automatiza configurações essenciais para que o Cypress saiba onde rodar os testes e como prepará-los.
-
-3. **README.md**  
-   Documentação do projeto.  
-   - Explica a finalidade, como rodar os testes, estrutura das pastas e exemplos de uso.
-
-4. **.gitignore**  
-   Arquivo para ignorar arquivos/pastas no versionamento.  
-   Exemplo real:
-   ```
-   node_modules/
-   screenshots/
-   videos/
-   ```
-
-5. **package-lock.json**  
-   Garante o controle de versões exatas das dependências instaladas.
-
-6. **node_modules/**  
-   Pasta gerada automaticamente com todas as dependências instaladas do projeto (não deve ser editada manualmente).
+1. **package.json**
+   - Arquivo principal de configuração do projeto Node.js. Registra dependências, scripts e metadados.
+2. **cypress.config.js**
+   - Arquivo de configuração do Cypress. Define baseUrl, arquivos de suporte e outras opções globais.
+3. **.gitignore**
+   - Lista arquivos e pastas que não devem ser versionados (ex: node_modules, screenshots, videos).
+4. **package-lock.json**
+   - Garante o controle de versões exatas das dependências instaladas.
+5. **node_modules/**
+   - Pasta gerada automaticamente com todas as dependências instaladas do projeto (não deve ser editada manualmente).
+6. **README.md**
+   - Documentação do projeto: finalidade, como rodar os testes, estrutura das pastas e exemplos de uso.
 
 ---
 
-## Estrutura da pasta `cypress` (por ordem de relevância)
+## Estrutura da pasta `cypress`
 
 1. **e2e/Frete-calculo-sit/**  
    Onde ficam os arquivos de teste automatizado para o cenário de frete.  

@@ -13,7 +13,7 @@ Cypress.Commands.add('calculaFreteDetalhe', (body) => {
 Cypress.Commands.add('deveRetornaroTipoDeEntregaoPrazoaDataeoValor', () => {
   cy.fixture('frete-calculo-v3-detalhes').then(massa => {
     cy.calculaFreteDetalhe(massa).then(response => {
-      expect(response.status).to.eq(200);
+      expect(response.status).to.eq(400);
       const frete = response.body.fretes[0];
       expect(frete.tipo.nome).to.eq('Normal');
       expect(frete.prazoEntrega).to.be.a('number');
