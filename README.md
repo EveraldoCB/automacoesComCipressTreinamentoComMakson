@@ -396,6 +396,149 @@ Esse workflow garante que, a cada alteração enviada para o repositório, os te
 
 ---
 
+## Integração Cypress com GitHub Actions e uso de tags (@cypress/grep)
+
+### 1. Configuração do GitHub Actions para Cypress
+- Foi criado o arquivo `.github/workflows/cypress.yml` para rodar testes Cypress automaticamente em cada push ou pull request.
+- O workflow executa os seguintes passos:
+  1. Faz checkout do código.
+  2. Instala o Node.js (versão 20).
+  3. Instala as dependências do projeto (`npm ci`).
+  4. Executa os testes Cypress normalmente (`npx cypress run`).
+  5. Executa os testes Cypress filtrando por tags usando o pacote @cypress/grep (`npx cypress run --env grep=smoke`).
+  6. Salva screenshots e vídeos dos testes como artefatos do workflow.
+
+### 2. Instalação do pacote @cypress/grep
+- O pacote @cypress/grep foi instalado para permitir o uso de tags nos testes Cypress.
+- Para instalar manualmente, execute:
+  ```pwsh
+  npm install @cypress/grep --save-dev
+  ```
+
+### 3. Como usar tags nos testes Cypress
+- Adicione tags nos seus testes usando a propriedade `tags`:
+  ```js
+  describe('Frete', { tags: ['regressivo', 'frete'] }, () => {
+    it('deve calcular o frete corretamente', { tags: ['smoke'] }, () => {
+      // seu teste aqui
+    });
+  });
+  ```
+- Para rodar apenas testes com uma tag específica:
+  ```pwsh
+  npx cypress run --env grep=smoke
+  ```
+- O workflow já está configurado para rodar testes com e sem filtro de tags.
+
+### 4. Referências
+- Documentação Cypress GitHub Actions: https://docs.cypress.io/guides/continuous-integration/github-actions
+- Pacote @cypress/grep: https://www.npmjs.com/package/@cypress/grep
+
+### 5. Onde cada passo está na configuração do workflow
+
+Abaixo está o mapeamento dos passos descritos para a configuração do arquivo `.github/workflows/cypress.yml`:
+
+1. **Checkout do código**
+   - Step:
+     ```yaml
+     - name: Checkout code
+       uses: actions/checkout@v4
+     ```
+2. **Instalação do Node.js (versão 20)**
+   - Step:
+     ```yaml
+     - name: Setup Node.js
+       uses: actions/setup-node@v4
+       with:
+         node-version: '20'
+     ```
+3. **Instalação das dependências**
+   - Step:
+     ```yaml
+     - name: Install dependencies
+       run: npm ci
+     ```
+4. **Execução dos testes Cypress normalmente**
+   - Step:
+     ```yaml
+     - name: Run Cypress tests
+       run: npx cypress run
+     ```
+5. **Execução dos testes Cypress filtrando por tags (@cypress/grep)**
+   - Step:
+     ```yaml
+     - name: Run Cypress tests with grep (tags)
+       run: npx cypress run --env grep=smoke
+     ```
+6. **Salvamento de screenshots e vídeos como artefatos**
+   - Steps:
+     ```yaml
+     - name: Upload screenshots
+       uses: actions/upload-artifact@v4
+       with:
+         name: cypress-screenshots
+         path: cypress/screenshots
+
+     - name: Upload videos
+       uses: actions/upload-artifact@v4
+       with:
+         name: cypress-videos
+         path: cypress/videos
+     ```
+
+Esses passos garantem que o workflow está de acordo com o que foi documentado, permitindo que qualquer usuário siga o README e entenda como tudo funciona manualmente.
+
+---
+
+### 6. Como habilitar o uso de tags (@cypress/grep) nos testes Cypress
+
+Para permitir o uso de tags nos testes automatizados, foi adicionado o seguinte trecho ao arquivo `cypress/support/e2e.js`:
+
+```javascript
+// Para habilitar o uso de tags (@cypress/grep) nos testes, adicione as linhas abaixo:
+const { register: registerCypressGrep } = require('@cypress/grep');
+registerCypressGrep();
+```
+
+Essas linhas registram o plugin @cypress/grep, permitindo filtrar e executar testes por tags usando o comando:
+
+```pwsh
+npx cypress run --env grep=nomeDaTag
+```
+
+Com isso, o projeto está pronto para utilizar tags em qualquer cenário de teste Cypress.
+
+---
+
+### 7. Como ativar a pré-filtragem de especificações (specs) com @cypress/grep
+
+Opcionalmente, você pode configurar o Cypress para pré-filtrar os arquivos de teste (specs) antes da execução, tornando a filtragem por tags ainda mais eficiente. Para isso, adicione o seguinte trecho ao arquivo `cypress.config.js`:
+
+```javascript
+const { defineConfig } = require('cypress')
+
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+      // Ativa a pré-filtragem de especificações pelo @cypress/grep
+      const { plugin: cypressGrepPlugin } = require('@cypress/grep/plugin')
+      cypressGrepPlugin(config)
+      return config
+    },
+  },
+})
+```
+
+Com essa configuração, o Cypress irá considerar apenas os arquivos de teste que possuem as tags especificadas ao rodar comandos como:
+
+```pwsh
+npx cypress run --env grep=nomeDaTag
+```
+
+Essa opção é útil para projetos grandes, pois acelera a execução dos testes filtrando os arquivos relevantes antes mesmo de rodar o Cypress.
+
+---
+
 ## Modelo de documentação de cenários de teste (API e Frontend)
 
 ### Exemplo de cenário de teste
