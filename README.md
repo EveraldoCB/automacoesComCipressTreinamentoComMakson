@@ -678,6 +678,6 @@ Assim, só os testes com essa tag serão executados nesse passo.
   - Como marcar testes com tags (comentários ou nomes).
   - Como rodar testes filtrando por tags usando os parâmetros `grep` e `grepTags`.
   - Exemplos de uso e opções avançadas de configuração.
-- **Quando usar:** Sempre que quiser implementar, revisar ou entender o uso de tags para filtrar cenários de teste no Cypress.
+- **Quando usar:** Sempre que quiser implementar, revisar, entender ou solucionar dúvidas sobre o uso de tags para filtrar cenários de teste no Cypress, seja localmente ou na pipeline.
 
 ---
