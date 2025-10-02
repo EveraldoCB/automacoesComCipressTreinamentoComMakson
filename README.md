@@ -577,3 +577,107 @@ Essa opção é útil para projetos grandes, pois acelera a execução dos teste
 - Facilite onboarding de novos QAs com guias rápidos
 
 ---
+
+## Como usar tags (@cypress/grep) nos testes Cypress
+
+### Diferença entre tags nos comentários e no nome dos cenários
+
+O plugin @cypress/grep permite filtrar testes de duas formas:
+
+- **Tags nos comentários (`// @grep tag`)**  
+  Adicione comentários acima dos testes ou blocos. Para filtrar por essas tags, use o parâmetro `--env grepTags=nomeDaTag`.  
+  Exemplo:
+  ```javascript
+  // @grep cenariosPositivos
+  it('Meu teste positivo', () => { ... });
+  ```
+  Comando para rodar:
+  ```sh
+  npx cypress run --env grepTags=cenariosPositivos
+  ```
+
+- **Tags no nome do cenário**  
+  Coloque a palavra-chave da tag no nome do teste. O filtro é feito com o parâmetro `--env grep=nomeDaTag`.  
+  Exemplo:
+  ```javascript
+  it('[cenariosPositivos] Meu teste positivo', () => { ... });
+  ```
+  Comando para rodar:
+  ```sh
+  npx cypress run --env grep=cenariosPositivos
+  ```
+
+### Qual a melhor prática?
+
+> **A melhor prática é usar tags nos comentários**  
+> Isso mantém o nome dos testes limpo, permite múltiplas tags por teste e facilita a manutenção.  
+> Sempre prefira o uso de `// @grep tag` acima dos testes e utilize `--env grepTags=nomeDaTag` para filtrar.
+
+---
+
+## Exemplos de uso
+
+- Para rodar todos os testes marcados como cenários positivos:
+  ```sh
+  npx cypress run --env grepTags=cenariosPositivos
+  ```
+
+- Para rodar todos os testes marcados como cenários negativos:
+  ```sh
+  npx cypress run --env grepTags=cenariosNegativos
+  ```
+
+- Para rodar todos os testes marcados como regressivo:
+  ```sh
+  npx cypress run --env grepTags=regressivo
+  ```
+
+- Para rodar todos os testes (sem filtro de tag):
+  ```sh
+  npx cypress run
+  ```
+
+## Pipeline (GitHub Actions)
+
+Para filtrar por tag na pipeline, use steps como:
+
+```yaml
+- name: Run Cypress tests with tag (cenariosPositivos)
+  run: npx cypress run --env grepTags=cenariosPositivos
+  env:
+    CYPRESS_CI: true
+```
+
+Assim, só os testes com essa tag serão executados nesse passo.
+
+---
+
+## Resumo rápido
+
+- Use `// @grep tag` acima do teste para marcar com uma ou mais tags.
+- Use `--env grepTags=nomeDaTag` para filtrar por tags nos comentários.
+- Use `--env grep=nome` para filtrar por palavra no nome do teste (menos recomendado).
+- Tags nos comentários são mais flexíveis e deixam o nome do teste limpo.
+
+---
+
+## Links importantes do Cypress
+
+### 1. [Run Cypress tests in GitHub Actions: A Step-by-Step Guide | Cypress Documentation](https://docs.cypress.io/guides/continuous-integration/github-actions)
+- **Para que serve:** Guia oficial do Cypress para configurar e rodar testes automatizados no GitHub Actions.
+- **O que estudar:**
+  - Como criar e estruturar o arquivo de workflow YAML.
+  - Como instalar dependências, rodar testes e salvar artefatos (screenshots, vídeos) na pipeline.
+  - Boas práticas para integração contínua com Cypress.
+- **Quando usar:** Sempre que precisar configurar, revisar ou refatorar a pipeline de testes automatizados no GitHub Actions.
+
+### 2. [@cypress/grep - npm](https://www.npmjs.com/package/@cypress/grep)
+- **Para que serve:** Página oficial do pacote @cypress/grep no npm, que permite filtrar e executar testes Cypress por tags ou palavras-chave.
+- **O que estudar:**
+  - Como instalar o pacote via npm.
+  - Como marcar testes com tags (comentários ou nomes).
+  - Como rodar testes filtrando por tags usando os parâmetros `grep` e `grepTags`.
+  - Exemplos de uso e opções avançadas de configuração.
+- **Quando usar:** Sempre que quiser implementar, revisar ou entender o uso de tags para filtrar cenários de teste no Cypress.
+
+---

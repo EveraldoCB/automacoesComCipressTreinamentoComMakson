@@ -216,3 +216,21 @@ A propriedade `baseUrl` foi removida do objeto `module.exports` no arquivo `cypr
 A retirada do `baseUrl` visa garantir que os testes rodem sem dependência de um endereço fixo, evitando erros em pipelines automatizados e facilitando a execução em múltiplos ambientes.
 
 ---
+
+## Refatoração do pipeline e uso de tags no Cypress
+
+1. Vamos refatorar os steps do GitHub Actions para rodar os testes automatizados seguindo as melhores práticas recomendadas pela documentação oficial do Cypress. Isso garante maior confiabilidade, manutenção e padronização no pipeline de CI/CD.
+
+2. Também vamos instalar a dependência @cypress/grep via npm, que permite o uso de tags nos testes. Com isso, conseguimos filtrar e executar grupos específicos de testes (como smoke, regressão, etc.) de forma mais eficiente, otimizando o tempo de execução e facilitando a gestão dos cenários automatizados.
+
+Essas ações aumentam a robustez e a flexibilidade da nossa automação de testes, alinhando o processo com padrões de mercado.
+
+### Palavras-chave para apresentação
+- Refatoração pipeline CI/CD
+- GitHub Actions + Cypress (documentação oficial)
+- Instalar @cypress/grep (npm)
+- Tags para filtrar testes (smoke, regressão, etc.)
+- Execução eficiente e segmentada
+- Melhores práticas / padronização
+- Otimização tempo de execução
+- Flexibilidade automação

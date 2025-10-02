@@ -23,3 +23,44 @@ Cypress.Commands.add('deveRetornaroTipoDeEntregaoPrazoaDataeoValor', () => {
     });
   });
 });
+
+Cypress.Commands.add('testeComCampoCepVazio', () => {
+  const massa = {
+    Canal: 'SITE',
+    Cep: '',
+    UnidadeNegocio: 'B2CCasasBahia',
+    Produtos: [
+      {
+        IdLojista: 10037,
+        IdSku: 12857509,
+        Quantidade: 1,
+        ValorUnitario: '299.00'
+      }
+    ]
+  };
+  cy.intercept('POST', 'http://frete-hub-plataforma-frete-hlg.casasbahia.com.br/frete/v3/calculo/detalhe', {
+    statusCode: 400,
+    body: {
+      erro: {
+        mensagem: 'Informe um CEP válido. A informação inserida é inválida ou inexistente.',
+        detalhes: [
+          {
+            codigo: 8,
+            detalhe: 'O cep  nao corresponde ao padrão 99999999'
+          }
+        ]
+      }
+    }
+  });
+  cy.request({
+    method: 'POST',
+    url: 'http://frete-hub-plataforma-frete-hlg.casasbahia.com.br/frete/v3/calculo/detalhe',
+    body: massa,
+    failOnStatusCode: false
+  }).then(response => {
+    expect(response.status).to.eq(400);
+    expect(response.body.erro).to.exist;
+    expect(response.body.erro.mensagem).to.contain('Informe um CEP válido');
+    expect(response.body.erro.detalhes[0].codigo).to.eq(8);
+  });
+});
