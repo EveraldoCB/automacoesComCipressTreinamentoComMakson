@@ -27,28 +27,19 @@ jobs:
         run: npx cypress run
         env:
           CYPRESS_CI: true
-
-      - name: Run Cypress tests with tag (exemplo: smoke)
-        run: npx cypress run --env grep=smoke
-        env:
-          CYPRESS_CI: true
-
       - name: Run Cypress tests with tag (cenariosPositivos)
         run: npx cypress run --env grep=cenariosPositivos
         env:
           CYPRESS_CI: true
-
       - name: Run Cypress tests with tag (regressivo)
         run: npx cypress run --env grep=regressivo
         env:
           CYPRESS_CI: true
-
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-
       - name: Upload videos
         uses: actions/upload-artifact@v4
         with:
