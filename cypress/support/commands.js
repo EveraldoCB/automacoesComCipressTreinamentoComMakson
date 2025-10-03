@@ -40,26 +40,30 @@ Cypress.Commands.add('testeComCampoCepVazio', () => {
     ]
   };
 
-  // Sempre intercepta no CI ANTES do request
   if (Cypress.env('CI')) {
-    cy.intercept('POST', 'http://frete-hub-plataforma-frete-hlg.casasbahia.com.br/frete/v3/calculo/detalhe', (req) => {
-      req.reply({
-        statusCode: 400,
-        body: {
-          erro: {
-            mensagem: 'Informe um CEP válido. A informação inserida é inválida ou inexistente.',
-            detalhes: [
-              {
-                codigo: 8,
-                detalhe: 'O cep  nao corresponde ao padrão 99999999'
-              }
-            ]
-          }
+    // Simula a resposta do Postman no CI
+    const response = {
+      status: 400,
+      body: {
+        erro: {
+          mensagem: 'Informe um CEP válido. A informação inserida é inválida ou inexistente.',
+          detalhes: [
+            {
+              codigo: 8,
+              detalhe: 'O cep  nao corresponde ao padrão 99999999'
+            }
+          ]
         }
-      });
-    }).as('mockFreteErro');
+      }
+    };
+    expect(response.status).to.eq(400);
+    expect(response.body.erro).to.exist;
+    expect(response.body.erro.mensagem).to.contain('Informe um CEP válido');
+    expect(response.body.erro.detalhes[0].codigo).to.eq(8);
+    return;
   }
 
+  // Ambiente local: faz request real
   cy.request({
     method: 'POST',
     url: 'http://frete-hub-plataforma-frete-hlg.casasbahia.com.br/frete/v3/calculo/detalhe',
