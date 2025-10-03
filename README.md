@@ -681,3 +681,31 @@ Assim, só os testes com essa tag serão executados nesse passo.
 - **Quando usar:** Sempre que quiser implementar, revisar, entender ou solucionar dúvidas sobre o uso de tags para filtrar cenários de teste no Cypress, seja localmente ou na pipeline.
 
 ---
+
+## Como rodar manualmente o workflow por tag no GitHub Actions
+
+A partir de agora, o botão **"Run workflow"** aparece na interface do GitHub Actions (menu "Actions" do repositório) para o workflow Cypress, permitindo a execução manual dos testes por tag.
+
+### Passo a passo visual:
+
+1. Acesse a aba **Actions** no seu repositório no GitHub.
+2. Clique no workflow chamado **Cypress** (ou nome definido no YAML).
+3. Clique no botão **Run workflow** no canto direito superior.
+4. No campo de input (ex: `grepTag`), digite a tag desejada (ex: `regressivo`, `cenariosPositivos`, etc).
+5. Clique em **Run workflow** para iniciar a execução manualmente filtrando pela tag informada.
+
+#### Exemplo visual:
+
+![Exemplo visual do botão Run workflow no GitHub Actions](https://docs.github.com/assets/images/help/repository/actions-manual-event.png)
+
+- O campo de input permite escolher qualquer tag cadastrada nos testes.
+- O resultado da execução aparecerá logo abaixo, com logs, screenshots e vídeos como artefatos.
+
+---
+
+## Dicas rápidas
+- O botão só aparece para workflows na branch principal (`main`) ou branch padrão do repositório.
+- Se não aparecer, confira se o arquivo YAML está na branch correta e se o push foi feito.
+- O campo de input pode ter nomes diferentes conforme definido no YAML (`grepTag`, `tag`, etc).
+
+---
