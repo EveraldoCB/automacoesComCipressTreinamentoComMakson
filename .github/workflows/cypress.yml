@@ -41,6 +41,10 @@ jobs:
         run: npx cypress run --env grep=regressivo
         env:
           CYPRESS_CI: true
+      - name: Run Cypress tests (public only)
+        run: npx cypress run --env grep=@public
+        env:
+          CYPRESS_CI: true
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
