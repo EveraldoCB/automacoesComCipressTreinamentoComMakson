@@ -1,5 +1,6 @@
 Cypress.Commands.add('calculaFreteDetalhe', (body) => {
   if (Cypress.env('CI')) {
+    // Mock para CI: resposta simulada
     return cy.wrap({
       status: 200,
       failOnStatusCode: false,
@@ -38,20 +39,22 @@ Cypress.Commands.add('testeComCampoCepVazio', () => {
       }
     ]
   };
-  cy.intercept('POST', 'http://frete-hub-plataforma-frete-hlg.casasbahia.com.br/frete/v3/calculo/detalhe', {
-    statusCode: 400,
-    body: {
-      erro: {
-        mensagem: 'Informe um CEP válido. A informação inserida é inválida ou inexistente.',
-        detalhes: [
-          {
-            codigo: 8,
-            detalhe: 'O cep  nao corresponde ao padrão 99999999'
-          }
-        ]
+  if (Cypress.env('CI')) {
+    cy.intercept('POST', 'http://frete-hub-plataforma-frete-hlg.casasbahia.com.br/frete/v3/calculo/detalhe', {
+      statusCode: 400,
+      body: {
+        erro: {
+          mensagem: 'Informe um CEP válido. A informação inserida é inválida ou inexistente.',
+          detalhes: [
+            {
+              codigo: 8,
+              detalhe: 'O cep  nao corresponde ao padrão 99999999'
+            }
+          ]
+        }
       }
-    }
-  });
+    }).as('mockFreteErro');
+  }
   cy.request({
     method: 'POST',
     url: 'http://frete-hub-plataforma-frete-hlg.casasbahia.com.br/frete/v3/calculo/detalhe',
