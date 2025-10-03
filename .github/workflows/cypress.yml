@@ -1,0 +1,64 @@
+# Força atualização do workflow para exibir o botão 'Run workflow' no GitHub Actions
+name: Cypress Tests
+
+on:
+  push:
+    branches:
+      - main
+      - pdiQaNaPratica
+  pull_request:
+    branches:
+      - main
+      - pdiQaNaPratica
+  workflow_dispatch:
+    inputs:
+      grepTag:
+        description: 'Tag do @cypress/grep para rodar (ex: regressivo, cenariosPositivos, cenariosNegativos)'
+        required: false
+        default: ''
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm ci
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Verify Cypress install
+        run: npx cypress verify
+      - name: Run Cypress tests (grep por tag ou todos)
+        run: |
+          if [ -n "${{ github.event.inputs.grepTag }}" ]; then
+            npx cypress run --env grep=${{ github.event.inputs.grepTag }}
+          else
+            npx cypress run
+          fi
+        env:
+          CYPRESS_CI: true
+      - name: Run Cypress tests (push/pull_request - regressivo)
+        if: github.event_name != 'workflow_dispatch'
+        run: npx cypress run --env grep=regressivo
+        env:
+          CYPRESS_CI: true
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      - name: Upload videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos

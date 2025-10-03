@@ -1,0 +1,22 @@
+{
+  "name": "projeto-de-automacao-de-api-com-cypress-para-apresentacao",
+  "version": "1.0.0",
+  "description": "Projeto de automação da API freteCaluloV2Detalhes em Sit.",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run",
+    "cypress:open": "npx cypress open",
+    "cypress:run:chrome": "cypress run --browser FireFox",
+    "cypress:run:headed": "cypress run --headed",
+    "cypress:run:spec": "cypress run --spec 'cypress/e2e/Frete-calculo-sit/frete-calculo-v2-detalhes.cy.js'",
+    "cypress:verify": "cypress verify",
+    "cypress:clear": "npx cypress cache clear"
+  },
+  "author": "Everaldo",
+  "license": "ISC",
+  "devDependencies": {
+    "@cypress/grep": "^5.0.0",
+    "cypress": "^14.5.4",
+    "cypress-plugin-api": "^2.11.2"
+  }
+}
