@@ -20,6 +20,13 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: npm ci
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Verify Cypress install
+        run: npx cypress verify
       - name: Run Cypress tests (all)
         run: npx cypress run
         env:
@@ -33,11 +40,13 @@ jobs:
         env:
           CYPRESS_CI: true
       - name: Upload screenshots
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshots
           path: cypress/screenshots
       - name: Upload videos
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-videos
