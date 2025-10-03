@@ -2,7 +2,13 @@ name: Cypress Tests
 
 on:
   push:
+    branches:
+      - main
+      - pdiQaNaPratica
   pull_request:
+    branches:
+      - main
+      - pdiQaNaPratica
 
 jobs:
   cypress-run:
