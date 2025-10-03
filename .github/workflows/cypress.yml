@@ -1,3 +1,4 @@
+# Força atualização do workflow para exibir o botão 'Run workflow' no GitHub Actions
 name: Cypress Tests
 
 on:
