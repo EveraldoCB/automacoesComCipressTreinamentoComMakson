@@ -9,6 +9,12 @@ on:
     branches:
       - main
       - pdiQaNaPratica
+  workflow_dispatch:
+    inputs:
+      grepTag:
+        description: 'Tag do @cypress/grep para rodar (ex: regressivo, cenariosPositivos, cenariosNegativos)'
+        required: false
+        default: ''
 
 jobs:
   cypress-run:
@@ -29,20 +35,18 @@ jobs:
           key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - name: Verify Cypress install
         run: npx cypress verify
-      - name: Run Cypress tests (all)
-        run: npx cypress run
+      - name: Run Cypress tests (grep por tag ou todos)
+        run: |
+          if [ -n "${{ github.event.inputs.grepTag }}" ]; then
+            npx cypress run --env grep=${{ github.event.inputs.grepTag }}
+          else
+            npx cypress run
+          fi
         env:
           CYPRESS_CI: true
-      - name: Run Cypress tests with tag (cenariosPositivos)
-        run: npx cypress run --env grep=cenariosPositivos
-        env:
-          CYPRESS_CI: true
-      - name: Run Cypress tests with tag (regressivo)
+      - name: Run Cypress tests (push/pull_request - regressivo)
+        if: github.event_name != 'workflow_dispatch'
         run: npx cypress run --env grep=regressivo
-        env:
-          CYPRESS_CI: true
-      - name: Run Cypress tests (public only)
-        run: npx cypress run --env grep=@public
         env:
           CYPRESS_CI: true
       - name: Upload screenshots
