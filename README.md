@@ -709,3 +709,32 @@ A partir de agora, o botão **"Run workflow"** aparece na interface do GitHub Ac
 - O campo de input pode ter nomes diferentes conforme definido no YAML (`grepTag`, `tag`, etc).
 
 ---
+
+## Executando testes Cypress por tags (filtro @cypress/grep)
+
+Você pode executar apenas cenários marcados com uma tag específica usando os scripts prontos do `package.json`:
+
+```sh
+npm run cypress:grep:negativos
+```
+Executa apenas os testes com a tag `cenariosNegativos`.
+
+```sh
+npm run cypress:grep:positivos
+```
+Executa apenas os testes com a tag `cenariosPositivos`.
+
+Ou, se preferir, use diretamente:
+
+```sh
+npx cypress run --env grep=nomeDaTag
+```
+
+> Exemplo:
+> ```sh
+> npx cypress run --env grep=cenariosNegativos
+> ```
+
+Esses comandos funcionam tanto localmente quanto no CI (GitHub Actions), desde que as tags estejam corretamente declaradas nos testes.
+
+---

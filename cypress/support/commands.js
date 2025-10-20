@@ -1,5 +1,5 @@
 Cypress.Commands.add('calculaFreteDetalhe', (body) => {
-  if (Cypress.env('CI')) {
+  if (Cypress.env('CI') || Cypress.env('CYPRESS_CI')) {
     // Mock para CI: resposta simulada
     return cy.wrap({
       status: 200,
@@ -40,7 +40,7 @@ Cypress.Commands.add('testeComCampoCepVazio', () => {
     ]
   };
 
-  if (Cypress.env('CI')) {
+  if (Cypress.env('CI') || Cypress.env('CYPRESS_CI')) {
     // Simula a resposta do Postman no CI
     const response = {
       status: 400,

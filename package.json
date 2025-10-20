@@ -10,13 +10,15 @@
     "cypress:run:headed": "cypress run --headed",
     "cypress:run:spec": "cypress run --spec 'cypress/e2e/Frete-calculo-sit/frete-calculo-v2-detalhes.cy.js'",
     "cypress:verify": "cypress verify",
-    "cypress:clear": "npx cypress cache clear"
+    "cypress:clear": "npx cypress cache clear",
+    "cypress:grep:negativos": "cypress run --env grep=cenariosNegativos",
+    "cypress:grep:positivos": "cypress run --env grep=cenariosPositivos"
   },
   "author": "Everaldo",
   "license": "ISC",
   "devDependencies": {
     "@cypress/grep": "^5.0.0",
-    "cypress": "^14.5.4",
+    "cypress": "^15.4.0",
     "cypress-plugin-api": "^2.11.2"
   }
 }

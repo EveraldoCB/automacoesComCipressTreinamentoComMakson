@@ -6,10 +6,7 @@ module.exports = defineConfig({
     supportFile: 'cypress/support/e2e.js',
     video: true, // Garante gravação de vídeos
     setupNodeEvents(on, config) {
-      // Ativa a pré-filtragem de especificações pelo @cypress/grep
-      const { plugin: cypressGrepPlugin } = require('@cypress/grep/plugin')
-      cypressGrepPlugin(config)
-
+      // Removido registro do @cypress/grep (não é necessário na v5.x)
       // Mock para rodar no CI (evita falha de endpoint interno)
       if (process.env.CI || process.env.CYPRESS_CI) {
         on('task', {

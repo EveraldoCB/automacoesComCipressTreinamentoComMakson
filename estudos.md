@@ -234,3 +234,79 @@ Essas ações aumentam a robustez e a flexibilidade da nossa automação de test
 - Melhores práticas / padronização
 - Otimização tempo de execução
 - Flexibilidade automação
+
+---
+
+## Exemplo de workflow do GitHub Actions para Cypress (comentado linha a linha)
+
+```yaml
+# Força atualização do workflow para exibir o botão 'Run workflow' no GitHub Actions
+# Nome do workflow exibido no GitHub Actions
+name: Cypress Tests
+
+# Define os gatilhos que disparam o workflow
+on:
+  push: # Executa em push nas branches abaixo
+    branches:
+      - main # Branch principal
+      - pdiQaNaPratica # Branch secundária de trabalho
+  pull_request: # Executa em pull request para as branches abaixo
+    branches:
+      - main
+      - pdiQaNaPratica
+  workflow_dispatch:  # Excuta o Worflow de forma manual por tags.
+    inputs:
+      grepTag: # Input para informar a tag do @cypress/grep na execução manual
+        description: 'Tag do @cypress/grep para rodar (ex: regressivo, cenariosPositivos, cenariosNegativos)'
+        required: false
+        default: ''
+
+jobs:
+  cypress-run: # Nome do job principal
+    runs-on: ubuntu-latest # Runner do GitHub (máquina virtual Ubuntu)
+    steps:
+      - name: Checkout code # Faz checkout do código do repositório
+        uses: actions/checkout@v4
+      - name: Setup Node.js # Instala Node.js na versão 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies # Instala dependências do projeto
+        run: npm ci
+      - name: Cache Cypress binary # Faz cache do binário do Cypress para acelerar execuções futuras
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress # Caminho do cache do Cypress
+          key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }} # Chave do cache baseada no SO e no package-lock.json
+      - name: Verify Cypress install # Verifica se o Cypress está instalado corretamente
+        run: npx cypress verify
+      - name: Run Cypress tests (grep por tag ou todos) # Executa testes Cypress manualmente (por tag ou todos)
+        run: |
+          if [ -n "${{ github.event.inputs.grepTag }}" ]; then # Se foi informada uma tag na execução manual
+            npx cypress run --env grep=${{ github.event.inputs.grepTag }} # Executa apenas os testes com a tag
+          else
+            npx cypress run # Executa todos os testes
+          fi
+        env:
+          CYPRESS_CI: true # Variável de ambiente para ativar mocks no CI
+      - name: Run Cypress tests (push/pull_request - regressivo) # Executa testes regressivos em push/pull_request
+        if: github.event_name != 'workflow_dispatch' # Só executa se não for execução manual
+        run: npx cypress run --env grep=regressivo
+        env:
+          CYPRESS_CI: true
+      - name: Upload screenshots # Salva screenshots como artefato do workflow
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      - name: Upload videos # Salva vídeos como artefato do workflow
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos
+```
+
+---
+````

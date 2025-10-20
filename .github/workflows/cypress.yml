@@ -1,6 +1,4 @@
-# Força atualização do workflow para exibir o botão 'Run workflow' no GitHub Actions
-name: Cypress Tests
-
+name: Component tests
 on:
   push:
     branches:
@@ -10,7 +8,7 @@ on:
     branches:
       - main
       - pdiQaNaPratica
-  workflow_dispatch:
+  workflow_dispatch:  # Executa o Workflow de forma manual por tags.
     inputs:
       grepTag:
         description: 'Tag do @cypress/grep para rodar (ex: regressivo, cenariosPositivos, cenariosNegativos)'
@@ -19,46 +17,11 @@ on:
 
 jobs:
   cypress-run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         with:
-          node-version: '20'
-      - name: Install dependencies
-        run: npm ci
-      - name: Cache Cypress binary
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/Cypress
-          key: cypress-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-      - name: Verify Cypress install
-        run: npx cypress verify
-      - name: Run Cypress tests (grep por tag ou todos)
-        run: |
-          if [ -n "${{ github.event.inputs.grepTag }}" ]; then
-            npx cypress run --env grep=${{ github.event.inputs.grepTag }}
-          else
-            npx cypress run
-          fi
-        env:
-          CYPRESS_CI: true
-      - name: Run Cypress tests (push/pull_request - regressivo)
-        if: github.event_name != 'workflow_dispatch'
-        run: npx cypress run --env grep=regressivo
-        env:
-          CYPRESS_CI: true
-      - name: Upload screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-      - name: Upload videos
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-videos
-          path: cypress/videos
+          component: true
