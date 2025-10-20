@@ -1,4 +1,4 @@
-name: Component tests
+name: E2E tests
 on:
   push:
     branches:
@@ -23,5 +23,5 @@ jobs:
         uses: actions/checkout@v4
       - name: Cypress run
         uses: cypress-io/github-action@v6
-        with:
-          component: true
+        env:
+          CYPRESS_CI: true
