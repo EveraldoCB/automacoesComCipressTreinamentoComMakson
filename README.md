@@ -680,6 +680,58 @@ Assim, só os testes com essa tag serão executados nesse passo.
   - Exemplos de uso e opções avançadas de configuração.
 - **Quando usar:** Sempre que quiser implementar, revisar, entender ou solucionar dúvidas sobre o uso de tags para filtrar cenários de teste no Cypress, seja localmente ou na pipeline.
 
+### 3. [cypress-io/github-action - GitHub Actions oficial do Cypress](https://github.com/cypress-io/github-action?tab=readme-ov-file#end-to-end-testing)
+- **Para que serve:** Action oficial do GitHub para executar testes Cypress no GitHub Actions de forma simplificada e otimizada.
+- **O que estudar:**
+  - Como usar a action oficial `cypress-io/github-action@v6` para testes E2E.
+  - Configurações automáticas de Node.js, cache e dependências.
+  - Como executar testes de componentes e E2E com diferentes parâmetros.
+  - Exemplos de workflow YAML simplificados e otimizados.
+- **Quando usar:** Sempre que quiser usar o padrão oficial do Cypress para GitHub Actions, simplificar workflows ou garantir melhor performance na execução dos testes.
+
+--- 
+
+## Workflow GitHub Actions atualizado (padrão oficial Cypress)
+
+O workflow foi atualizado para usar o **padrão oficial do Cypress** com a action `cypress-io/github-action@v6`, que simplifica e otimiza a execução dos testes:
+
+```yaml
+name: E2E tests
+on:
+  push:
+    branches:
+      - main
+      - pdiQaNaPratica
+  pull_request:
+    branches:
+      - main
+      - pdiQaNaPratica
+  workflow_dispatch:  # Executa o Workflow de forma manual por tags.
+    inputs:
+      grepTag:
+        description: 'Tag do @cypress/grep para rodar (ex: regressivo, cenariosPositivos, cenariosNegativos)'
+        required: false
+        default: ''
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        env:
+          CYPRESS_CI: true
+```
+
+### Vantagens do novo padrão:
+- **Automático:** Gerencia Node.js, cache e dependências automaticamente
+- **Otimizado:** Performance melhorada com cache inteligente
+- **Simples:** Menos código YAML para manter
+- **Oficial:** Suportado diretamente pela equipe do Cypress
+- **Atualizado:** Usa Ubuntu 24.04 e versões mais recentes
+
 ---
 
 ## Como rodar manualmente o workflow por tag no GitHub Actions
