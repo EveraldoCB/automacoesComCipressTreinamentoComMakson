@@ -1,46 +1,64 @@
-# Automação da API de Frete cálculo com Cypress - Mentoria Com Makson
+# 🚀 Automação da API de Frete com Cypress - Mentoria Com Makson
 
-## Gerenciamento de dependências e node_modules
+[![CI Status](https://img.shields.io/github/actions/workflow/status/USERNAME/REPO/cypress.yml?branch=pdiQaNaPratica)](https://github.com/USERNAME/REPO/actions)
+[![Cypress Version](https://img.shields.io/badge/cypress-15.4.0-brightgreen)](https://cypress.io)
+[![Node Version](https://img.shields.io/badge/node-20.x-brightgreen)](https://nodejs.org)
 
-- Todas as dependências do projeto (incluindo o Cypress) são registradas no arquivo `package.json`.
-- Para instalar as dependências, execute `npm install`. Isso cria a pasta `node_modules` na raiz do projeto.
-- A pasta `node_modules` **não é enviada para o GitHub** porque está listada no `.gitignore`. Cada pessoa que clonar o projeto deve rodar `npm install` para gerar essa pasta localmente.
-- Não edite manualmente a `node_modules`.
+Este projeto demonstra a automação de testes de API para o sistema de cálculo de frete, implementado com Cypress e integração contínua via GitHub Actions.
+
+## 📁 Gerenciamento de dependências e node_modules
+
+- 📦 Todas as dependências do projeto são registradas no arquivo `package.json`
+- ⚡ Para instalar as dependências: `npm install` (cria a pasta `node_modules`)
+- 🚫 A pasta `node_modules` **não é versionada** (listada no `.gitignore`)
+- 👥 Cada colaborador deve executar `npm install` após clonar o projeto
+- ⚠️ **Nunca** edite manualmente a pasta `node_modules`
 
 ---
 
-## Como iniciar o projeto
+## 🚀 Como iniciar o projeto
 
-1. Inicialize o projeto Node.js:
-   ```sh
+### Pré-requisitos
+- Node.js (versão 20.x ou superior)
+- npm ou yarn
+
+### Configuração inicial
+
+1. **Inicialize o projeto Node.js:**
+   ```bash
    npm init -y
    ```
-   O parâmetro `-y` aceita todas as configurações padrão automaticamente, criando o arquivo `package.json`.
-2. Instale o Cypress como dependência de desenvolvimento:
-   ```sh
+   > O parâmetro `-y` aceita todas as configurações padrão, criando o `package.json`
+
+2. **Instale o Cypress como dependência de desenvolvimento:**
+   ```bash
    npm install --save-dev cypress
    ```
-3. Verifique a versão instalada do Cypress:
-   ```sh
+
+3. **Verifique a instalação:**
+   ```bash
    npx cypress --version
    ```
 
+4. **Execute os testes:**
+   ```bash
+   npm test
+   # ou
+   npx cypress run
+   ```
+
 ---
 
-## Estrutura dos arquivos principais do projeto
+## 📂 Estrutura dos arquivos principais do projeto
 
-1. **package.json**
-   - Arquivo principal de configuração do projeto Node.js. Registra dependências, scripts e metadados.
-2. **cypress.config.js**
-   - Arquivo de configuração do Cypress. Define baseUrl, arquivos de suporte e outras opções globais.
-3. **.gitignore**
-   - Lista arquivos e pastas que não devem ser versionados (ex: node_modules, screenshots, videos).
-4. **package-lock.json**
-   - Garante o controle de versões exatas das dependências instaladas.
-5. **node_modules/**
-   - Pasta gerada automaticamente com todas as dependências instaladas do projeto (não deve ser editada manualmente).
-6. **README.md**
-   - Documentação do projeto: finalidade, como rodar os testes, estrutura das pastas e exemplos de uso.
+| Arquivo | Descrição |
+|---------|-----------|
+| 📄 **package.json** | Configuração principal do projeto Node.js (dependências, scripts, metadados) |
+| ⚙️ **cypress.config.js** | Configuração do Cypress (baseUrl, arquivos de suporte, opções globais) |
+| 🚫 **.gitignore** | Lista de arquivos/pastas não versionados (node_modules, screenshots, vídeos) |
+| 🔒 **package-lock.json** | Controle de versões exatas das dependências instaladas |
+| 📁 **node_modules/** | Dependências instaladas automaticamente (não editar manualmente) |
+| 📖 **README.md** | Documentação do projeto e guia de uso |
 
 ---
 
@@ -347,32 +365,80 @@ Resumo: context deixa o código mais legível quando você quer destacar diferen
 
 ---
 
-## Como executar os testes
+## 🧪 Como executar os testes
 
-Para rodar os testes automatizados, utilize um dos comandos abaixo no terminal, na raiz do projeto:
-
-```sh
+### Execução interativa (recomendado para desenvolvimento)
+```bash
 npx cypress open
 ```
 Abre a interface gráfica do Cypress para executar e visualizar os testes manualmente.
 
-ou
-
-```sh
+### Execução em modo headless (CI/CD)
+```bash
 npx cypress run
 ```
-Executa todos os testes em modo headless (sem interface gráfica), ideal para integração contínua.
+Executa todos os testes sem interface gráfica, ideal para integração contínua.
+
+### Scripts pré-configurados
+```bash
+# Executar todos os testes
+npm test
+
+# Abrir interface gráfica
+npm run cypress:open
+
+# Executar com browser específico
+npm run cypress:run:chrome
+
+# Executar com interface visível
+npm run cypress:run:headed
+
+# Executar teste específico
+npm run cypress:run:spec
+
+# Executar apenas cenários positivos
+npm run cypress:grep:positivos
+
+# Executar apenas cenários negativos
+npm run cypress:grep:negativos
+```
 
 ---
 
-## Conclusão
+## 🎯 Conclusão
 
-Este projeto demonstra como estruturar e automatizar testes de API utilizando Cypress, com organização de comandos customizados, uso de fixtures e separação clara entre lógica de teste e massa de dados. Essa abordagem facilita a manutenção, reuso e expansão dos testes, garantindo maior qualidade e confiabilidade para a API de frete.
+Este projeto demonstra uma implementação completa de automação de testes de API usando **Cypress** com as seguintes características principais:
 
-- Todos os testes, fixtures e comandos agora usam apenas a versão v3 do endpoint e dos arquivos.
-- O teste principal (`frete-calculo-v3-detalhes.cy.js`) utiliza `cy.intercept()` para mockar a resposta da API, garantindo que o teste passe mesmo sem acesso externo.
-- Arquivos, exemplos e instruções que referenciavam "v2" foram atualizados para "v3".
-- O arquivo antigo `frete-calculo-v2-detalhes.cy.js` foi substituído por `frete-calculo-v3-detalhes.cy.js`.
+### ✨ Principais funcionalidades
+
+- 🔧 **Comandos customizados** organizados e reutilizáveis
+- 📊 **Sistema de fixtures** para gerenciamento de dados de teste
+- 🏷️ **Filtros por tags** (@cypress/grep) para execução seletiva
+- 🚀 **CI/CD automatizado** com GitHub Actions
+- 📱 **Interface moderna** com emojis e organização visual
+- 📚 **Documentação completa** e sempre atualizada
+
+### 🛠️ Tecnologias utilizadas
+
+| Tecnologia | Versão | Finalidade |
+|------------|--------|------------|
+| **Cypress** | 15.4.0 | Framework principal de testes |
+| **Node.js** | 20.x | Ambiente de execução |
+| **@cypress/grep** | 5.0.0 | Sistema de tags |
+| **GitHub Actions** | v6 | Integração contínua |
+
+### 🎨 Padrões adotados
+
+- **Clean Code**: Testes organizados e legíveis
+- **DRY Principle**: Reutilização através de comandos customizados  
+- **Separation of Concerns**: Separação entre lógica, dados e configuração
+- **Documentation as Code**: README sempre sincronizado com o projeto
+
+---
+
+**🚀 Projeto mantido por:** Everaldo  
+**📚 Mentoria com:** Makson  
+**📅 Última atualização:** Outubro 2025
 
 ## Explicação do workflow CI (`.github/workflows/ci-cypress.yml`)
 
@@ -578,187 +644,150 @@ Essa opção é útil para projetos grandes, pois acelera a execução dos teste
 
 ---
 
-## Como usar tags (@cypress/grep) nos testes Cypress
+## 🏷️ Sistema de Tags (@cypress/grep)
 
-### Diferença entre tags nos comentários e no nome dos cenários
+### Como usar tags nos testes
 
-O plugin @cypress/grep permite filtrar testes de duas formas:
+O projeto utiliza o plugin `@cypress/grep` para filtrar testes por tags. Use comentários para marcar seus testes:
 
-- **Tags nos comentários (`// @grep tag`)**  
-  Adicione comentários acima dos testes ou blocos. Para filtrar por essas tags, use o parâmetro `--env grepTags=nomeDaTag`.  
-  Exemplo:
-  ```javascript
-  // @grep cenariosPositivos
-  it('Meu teste positivo', () => { ... });
-  ```
-  Comando para rodar:
-  ```sh
-  npx cypress run --env grepTags=cenariosPositivos
-  ```
+```javascript
+// @grep cenariosPositivos
+describe('API de Frete - Cenários Positivos', () => {
+  // @grep smoke
+  it('Deve calcular frete com sucesso', () => {
+    // teste aqui
+  });
 
-- **Tags no nome do cenário**  
-  Coloque a palavra-chave da tag no nome do teste. O filtro é feito com o parâmetro `--env grep=nomeDaTag`.  
-  Exemplo:
-  ```javascript
-  it('[cenariosPositivos] Meu teste positivo', () => { ... });
-  ```
-  Comando para rodar:
-  ```sh
-  npx cypress run --env grep=cenariosPositivos
-  ```
+  // @grep regressivo
+  it('Deve validar todos os campos da resposta', () => {
+    // teste aqui
+  });
+});
 
-### Qual a melhor prática?
-
-> **A melhor prática é usar tags nos comentários**  
-> Isso mantém o nome dos testes limpo, permite múltiplas tags por teste e facilita a manutenção.  
-> Sempre prefira o uso de `// @grep tag` acima dos testes e utilize `--env grepTags=nomeDaTag` para filtrar.
-
----
-
-## Exemplos de uso
-
-- Para rodar todos os testes marcados como cenários positivos:
-  ```sh
-  npx cypress run --env grepTags=cenariosPositivos
-  ```
-
-- Para rodar todos os testes marcados como cenários negativos:
-  ```sh
-  npx cypress run --env grepTags=cenariosNegativos
-  ```
-
-- Para rodar todos os testes marcados como regressivo:
-  ```sh
-  npx cypress run --env grepTags=regressivo
-  ```
-
-- Para rodar todos os testes (sem filtro de tag):
-  ```sh
-  npx cypress run
-  ```
-
-## Pipeline (GitHub Actions)
-
-Para filtrar por tag na pipeline, use steps como:
-
-```yaml
-- name: Run Cypress tests with tag (cenariosPositivos)
-  run: npx cypress run --env grepTags=cenariosPositivos
-  env:
-    CYPRESS_CI: true
+// @grep cenariosNegativos  
+describe('API de Frete - Cenários Negativos', () => {
+  // @grep edge-case
+  it('Deve retornar erro para CEP inválido', () => {
+    // teste aqui
+  });
+});
 ```
 
-Assim, só os testes com essa tag serão executados nesse passo.
+### Comandos para execução por tags
+
+```bash
+# Executar apenas cenários positivos
+npx cypress run --env grepTags=cenariosPositivos
+
+# Executar apenas cenários negativos  
+npx cypress run --env grepTags=cenariosNegativos
+
+# Executar apenas testes de smoke
+npx cypress run --env grepTags=smoke
+
+# Executar testes regressivos
+npx cypress run --env grepTags=regressivo
+
+# Usar scripts pré-configurados
+npm run cypress:grep:positivos
+npm run cypress:grep:negativos
+```
+
+### ✅ Melhores práticas para tags
+
+- **Use comentários** `// @grep tag` em vez de tags no nome do teste
+- **Mantenha nomes limpos** dos testes sem poluição de tags
+- **Combine múltiplas tags** quando necessário
+- **Use tags consistentes** em todo o projeto:
+  - `smoke` - Testes básicos e essenciais
+  - `regressivo` - Testes de regressão completos  
+  - `cenariosPositivos` - Fluxos de sucesso
+  - `cenariosNegativos` - Fluxos de erro e validação
 
 ---
 
-## Resumo rápido
+## 📚 Recursos e Links Importantes
 
-- Use `// @grep tag` acima do teste para marcar com uma ou mais tags.
-- Use `--env grepTags=nomeDaTag` para filtrar por tags nos comentários.
-- Use `--env grep=nome` para filtrar por palavra no nome do teste (menos recomendado).
-- Tags nos comentários são mais flexíveis e deixam o nome do teste limpo.
+### 📖 Documentação oficial
+
+| Recurso | Descrição | Uso |
+|---------|-----------|-----|
+| [Cypress GitHub Actions](https://docs.cypress.io/guides/continuous-integration/github-actions) | Guia oficial para CI/CD | Configurar pipelines |
+| [@cypress/grep](https://www.npmjs.com/package/@cypress/grep) | Plugin para filtro por tags | Organizar execução de testes |
+| [cypress-io/github-action](https://github.com/cypress-io/github-action) | Action oficial do Cypress | Otimizar workflows |
+
+### 🎯 Para que serve cada link
+
+- **Cypress GitHub Actions**: Como criar workflows, salvar artefatos e boas práticas de CI
+- **@cypress/grep**: Instalação, marcação de testes com tags e filtros avançados  
+- **cypress-io/github-action**: Action oficial simplificada e otimizada para GitHub Actions
 
 ---
 
-## Links importantes do Cypress
+## 📋 Checklist de Qualidade
 
-### 1. [Run Cypress tests in GitHub Actions: A Step-by-Step Guide | Cypress Documentation](https://docs.cypress.io/guides/continuous-integration/github-actions)
-- **Para que serve:** Guia oficial do Cypress para configurar e rodar testes automatizados no GitHub Actions.
-- **O que estudar:**
-  - Como criar e estruturar o arquivo de workflow YAML.
-  - Como instalar dependências, rodar testes e salvar artefatos (screenshots, vídeos) na pipeline.
-  - Boas práticas para integração contínua com Cypress.
-- **Quando usar:** Sempre que precisar configurar, revisar ou refatorar a pipeline de testes automatizados no GitHub Actions.
+### ✅ Antes de fazer commit
+- [ ] Testes estão passando localmente
+- [ ] Tags estão devidamente aplicadas
+- [ ] Comandos customizados estão documentados
+- [ ] Fixtures estão atualizadas
+- [ ] README reflete as mudanças
 
-### 2. [@cypress/grep - npm](https://www.npmjs.com/package/@cypress/grep)
-- **Para que serve:** Página oficial do pacote @cypress/grep no npm, que permite filtrar e executar testes Cypress por tags ou palavras-chave.
-- **O que estudar:**
-  - Como instalar o pacote via npm.
-  - Como marcar testes com tags (comentários ou nomes).
-  - Como rodar testes filtrando por tags usando os parâmetros `grep` e `grepTags`.
-  - Exemplos de uso e opções avançadas de configuração.
-- **Quando usar:** Sempre que quiser implementar, revisar, entender ou solucionar dúvidas sobre o uso de tags para filtrar cenários de teste no Cypress, seja localmente ou na pipeline.
-
-### 3. [cypress-io/github-action - GitHub Actions oficial do Cypress](https://github.com/cypress-io/github-action?tab=readme-ov-file#end-to-end-testing)
-- **Para que serve:** Action oficial do GitHub para executar testes Cypress no GitHub Actions de forma simplificada e otimizada.
-- **O que estudar:**
-  - Como usar a action oficial `cypress-io/github-action@v6` para testes E2E.
-  - Configurações automáticas de Node.js, cache e dependências.
-  - Como executar testes de componentes e E2E com diferentes parâmetros.
-  - Exemplos de workflow YAML simplificados e otimizados.
-- **Quando usar:** Sempre que quiser usar o padrão oficial do Cypress para GitHub Actions, simplificar workflows ou garantir melhor performance na execução dos testes.
+### ✅ Para refinamento semanal
+- [ ] Cenários atualizados conforme refinamento
+- [ ] Comandos customizados revisados
+- [ ] Fixtures revisadas e documentadas  
+- [ ] Integração entre produtos validada
+- [ ] README e estudos.md atualizados
+- [ ] Cobertura de cenários de erro e borda
+- [ ] Documentação de mudanças relevantes
 
 --- 
 
-## Workflow GitHub Actions atualizado (padrão oficial Cypress)
+## 🔄 CI/CD com GitHub Actions
 
-O workflow foi atualizado para usar o **padrão oficial do Cypress** com a action `cypress-io/github-action@v6`, que simplifica e otimiza a execução dos testes:
+### Workflow automatizado
+
+O projeto possui um workflow GitHub Actions que executa automaticamente:
+
+- ✅ **Triggers**: Push e Pull Request nas branches `main` e `pdiQaNaPratica`
+- ✅ **Execução manual**: Via botão "Run workflow" com filtro por tags
+- ✅ **Ambiente**: Ubuntu 24.04 com Node.js 20.x
+- ✅ **Cache inteligente**: Dependências npm otimizadas
+- ✅ **Artefatos**: Screenshots e vídeos salvos automaticamente
+
+### Execução manual por tags
+
+1. Acesse **Actions** no GitHub
+2. Selecione o workflow **Cypress**  
+3. Clique em **Run workflow**
+4. Digite a tag desejada (ex: `smoke`, `regressivo`)
+5. Execute e acompanhe os resultados
+
+### Configuração do workflow
 
 ```yaml
 name: E2E tests
 on:
   push:
-    branches:
-      - main
-      - pdiQaNaPratica
+    branches: [main, pdiQaNaPratica]
   pull_request:
-    branches:
-      - main
-      - pdiQaNaPratica
-  workflow_dispatch:  # Executa o Workflow de forma manual por tags.
+    branches: [main, pdiQaNaPratica]
+  workflow_dispatch:
     inputs:
       grepTag:
-        description: 'Tag do @cypress/grep para rodar (ex: regressivo, cenariosPositivos, cenariosNegativos)'
+        description: 'Tag para filtro de testes'
         required: false
-        default: ''
 
 jobs:
   cypress-run:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
+      - uses: actions/checkout@v4
+      - uses: cypress-io/github-action@v6
         env:
           CYPRESS_CI: true
 ```
-
-### Vantagens do novo padrão:
-- **Automático:** Gerencia Node.js, cache e dependências automaticamente
-- **Otimizado:** Performance melhorada com cache inteligente
-- **Simples:** Menos código YAML para manter
-- **Oficial:** Suportado diretamente pela equipe do Cypress
-- **Atualizado:** Usa Ubuntu 24.04 e versões mais recentes
-
----
-
-## Como rodar manualmente o workflow por tag no GitHub Actions
-
-A partir de agora, o botão **"Run workflow"** aparece na interface do GitHub Actions (menu "Actions" do repositório) para o workflow Cypress, permitindo a execução manual dos testes por tag.
-
-### Passo a passo visual:
-
-1. Acesse a aba **Actions** no seu repositório no GitHub.
-2. Clique no workflow chamado **Cypress** (ou nome definido no YAML).
-3. Clique no botão **Run workflow** no canto direito superior.
-4. No campo de input (ex: `grepTag`), digite a tag desejada (ex: `regressivo`, `cenariosPositivos`, etc).
-5. Clique em **Run workflow** para iniciar a execução manualmente filtrando pela tag informada.
-
-#### Exemplo visual:
-
-![Exemplo visual do botão Run workflow no GitHub Actions](https://docs.github.com/assets/images/help/repository/actions-manual-event.png)
-
-- O campo de input permite escolher qualquer tag cadastrada nos testes.
-- O resultado da execução aparecerá logo abaixo, com logs, screenshots e vídeos como artefatos.
-
----
-
-## Dicas rápidas
-- O botão só aparece para workflows na branch principal (`main`) ou branch padrão do repositório.
-- Se não aparecer, confira se o arquivo YAML está na branch correta e se o push foi feito.
-- O campo de input pode ter nomes diferentes conforme definido no YAML (`grepTag`, `tag`, etc).
 
 ---
 
