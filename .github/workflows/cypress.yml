@@ -16,7 +16,8 @@ on:
         default: ''
 
 jobs:
-  cypress-run:    runs-on: ubuntu-24.04
+  cypress-run:
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
