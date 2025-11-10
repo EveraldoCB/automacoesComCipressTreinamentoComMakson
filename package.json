@@ -2,7 +2,6 @@
   "name": "projeto-de-automacao-de-api-com-cypress-para-apresentacao",
   "version": "1.0.0",
   "description": "Projeto de automação da API freteCaluloV2Detalhes em Sit.",
-  "main": "index.js",
   "scripts": {
     "test": "cypress run",
     "cypress:open": "npx cypress open",
