@@ -50,6 +50,9 @@ web_modules/
 # Optional npm cache directory
 .npm
 
+# Material de apoio (documentação e materiais educacionais)
+material-de-apoio/
+
 # Optional eslint cache
 .eslintcache
 
