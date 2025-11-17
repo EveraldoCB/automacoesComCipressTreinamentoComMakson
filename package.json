@@ -2,7 +2,7 @@
   "name": "projeto-de-automacao-de-api-com-cypress-para-apresentacao",
   "version": "1.0.0",
   "description": "Projeto de automação da API freteCaluloV2Detalhes em Sit.",
-  "scripts": {
+  "scripts":{
     "test": "cypress run",
     "cypress:open": "npx cypress open",
     "cypress:run:chrome": "cypress run --browser FireFox",
@@ -12,9 +12,20 @@
     "cypress:clear": "npx cypress cache clear",
     "cypress:grep:negativos": "cypress run --env grep=cenariosNegativos",
     "cypress:grep:positivos": "cypress run --env grep=cenariosPositivos"
-  },
+  }, 
   "author": "Everaldo",
   "license": "ISC",
+  "keywords": [
+    "cypress",
+    "api-testing",
+    "automation",
+    "frete",
+    "casas-bahia"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "devDependencies": {
     "@cypress/grep": "^5.0.0",
     "cypress": "^15.4.0",

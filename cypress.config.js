@@ -3,8 +3,9 @@ const { defineConfig } = require('cypress')
 module.exports = defineConfig({
   e2e: {
     supportFile: 'cypress/support/e2e.js',
-    video: true,
-    screenshotOnRunFailure: true,    setupNodeEvents(on, config) {
+    video: true,                    // Vídeos abilitados 
+    screenshotOnRunFailure: true,    // Screenshots apenas quando testes falham
+    setupNodeEvents(on, config) {
       // Configura @cypress/grep para filtrar testes por tags
       const { plugin: cypressGrepPlugin } = require('@cypress/grep/plugin')
       cypressGrepPlugin(config)
